@@ -51,7 +51,7 @@ Page({
   async loadMessages() {
     try {
       const msgs = await api.getMessages(this.data.conversationId)
-      const formatted = (msgs || []).map(m => ({ ...m, timeText: this.formatMsgTime(m.createTime) }))
+      const formatted = (msgs || []).map(m => this.decorate({ ...m, timeText: this.formatMsgTime(m.createTime) }))
       this.setData({ messages: formatted }, () => this.scrollToBottom())
     } catch (err) {
       console.error('加载消息失败:', err)
@@ -63,8 +63,14 @@ Page({
     const storage = require('../../utils/storage')
     const { mockMessages } = require('../../utils/mock')
     let allMessages = storage.get('chatMessages', mockMessages)
-    const msgs = (allMessages[this.data.conversationId] || []).map(m => ({ ...m, timeText: this.formatMsgTime(m.createTime) }))
+    const msgs = (allMessages[this.data.conversationId] || []).map(m => this.decorate({ ...m, timeText: this.formatMsgTime(m.createTime) }))
     this.setData({ messages: msgs }, () => this.scrollToBottom())
+  },
+
+  // 给消息附加展示字段：是否自己发、已读/未读回执
+  decorate(m) {
+    const isMine = m.fromUserId === this.data.currentUserId
+    return { ...m, isMine, readText: isMine ? (m.isRead ? '已读' : '未读') : '' }
   },
 
   onInputChange(e) { this.setData({ inputText: e.detail.value }) },
@@ -77,7 +83,7 @@ Page({
     const [, uid2] = conversationId.split('_')
     const toUserId = String(currentUserId) === uid2 ? parseInt(conversationId.split('_')[0]) : parseInt(uid2)
 
-    const newMsg = {
+    const newMsg = this.decorate({
       id: 'msg_' + generateId(),
       conversationId,
       fromUserId: currentUserId,
@@ -87,7 +93,7 @@ Page({
       createTime: new Date().toISOString(),
       timeText: this.formatMsgTime(new Date()),
       isRead: 0
-    }
+    })
 
     // 乐观更新UI
     const messages = [...this.data.messages, newMsg]
@@ -110,14 +116,14 @@ Page({
         const [, uid2] = conversationId.split('_')
         const toUserId = String(currentUserId) === uid2 ? parseInt(conversationId.split('_')[0]) : parseInt(uid2)
 
-        const newMsg = {
+        const newMsg = this.decorate({
           id: 'msg_' + generateId(),
           conversationId, fromUserId: currentUserId, toUserId,
           type: 'image', content: res.tempFilePaths[0],
           createTime: new Date().toISOString(),
           timeText: this.formatMsgTime(new Date()),
           isRead: 0
-        }
+        })
 
         const messages = [...this.data.messages, newMsg]
         this.setData({ messages }, () => this.scrollToBottom())

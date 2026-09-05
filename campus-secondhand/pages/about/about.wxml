@@ -13,7 +13,7 @@
     </view>
     <view class="info-item">
       <text class="info-label">数据库</text>
-      <text class="info-value">MySQL 8.0 + Redis</text>
+      <text class="info-value">MySQL 8.0</text>
     </view>
     <view class="info-item">
       <text class="info-label">管理后台</text>

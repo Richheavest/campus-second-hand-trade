@@ -16,6 +16,8 @@
           <view class="msg-bubble {{item.fromUserId === currentUserId ? 'bubble-mine' : 'bubble-other'}}"
                 wx:if="{{item.type === 'text'}}">{{item.content}}</view>
           <text class="msg-time">{{item.timeText}}</text>
+          <text class="msg-read {{item.readText === '未读' ? 'unread' : ''}}"
+                wx:if="{{item.fromUserId === currentUserId}}">{{item.readText}}</text>
         </view>
       </view>
     </view>

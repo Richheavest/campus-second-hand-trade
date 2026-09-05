@@ -83,6 +83,15 @@
   color: #B0B3B8;
   padding: 0 4rpx;
 }
+.msg-read {
+  margin-top: 2rpx;
+  font-size: 20rpx;
+  color: #B0B3B8;
+  padding: 0 4rpx;
+}
+.msg-read.unread {
+  color: #E6A800;
+}
 
 /* 输入栏 */
 .input-bar {
