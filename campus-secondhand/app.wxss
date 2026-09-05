@@ -1,0 +1,138 @@
+/** 全局样式变量 & 通用类 **/
+
+/* ===== CSS 变量 ===== */
+page {
+  --color-primary: #FFD100;
+  --color-primary-dark: #F5C400;
+  --color-primary-light: #FFF3CD;
+  --color-primary-gradient: #FFE57F;
+  --color-price: #FF4D4F;
+  --color-text: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-text-light: #999999;
+  --color-bg: #F5F5F5;
+  --color-card: #FFFFFF;
+  --color-border: #EEEEEE;
+  --color-warning: #FF9800;
+  --color-success: #52C41A;
+
+  --radius-sm: 8rpx;
+  --radius-md: 16rpx;
+  --radius-lg: 24rpx;
+  --radius-round: 999rpx;
+
+  --space-xs: 8rpx;
+  --space-sm: 16rpx;
+  --space-md: 24rpx;
+  --space-lg: 32rpx;
+  --space-xl: 48rpx;
+
+  --font-xs: 20rpx;
+  --font-sm: 24rpx;
+  --font-md: 28rpx;
+  --font-lg: 32rpx;
+  --font-xl: 36rpx;
+  --font-xxl: 44rpx;
+
+  --shadow-card: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  --shadow-float: 0 8rpx 24rpx rgba(0, 0, 0, 0.12);
+
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+  font-size: 28rpx;
+  color: #1A1A1A;
+  background-color: #F5F5F5;
+  box-sizing: border-box;
+}
+
+/* ===== 通用工具类 ===== */
+
+/* Flex 布局 */
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-align-center { display: flex; align-items: center; }
+.flex-1 { flex: 1; }
+.flex-wrap { flex-wrap: wrap; }
+
+/* 文字 */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-primary { color: #FFD100; }
+.text-price { color: #FF4D4F; font-weight: 600; }
+.text-secondary { color: #666666; }
+.text-light { color: #999999; }
+.text-xs { font-size: 20rpx; }
+.text-sm { font-size: 24rpx; }
+.text-md { font-size: 28rpx; }
+.text-lg { font-size: 32rpx; }
+.text-xl { font-size: 36rpx; }
+.font-bold { font-weight: 600; }
+
+/* 文字截断 */
+.text-ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.text-ellipsis-2 { overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+
+/* 间距 */
+.mt-xs { margin-top: 8rpx; }
+.mt-sm { margin-top: 16rpx; }
+.mt-md { margin-top: 24rpx; }
+.mt-lg { margin-top: 32rpx; }
+.mb-sm { margin-bottom: 16rpx; }
+.mb-md { margin-bottom: 24rpx; }
+.ml-sm { margin-left: 16rpx; }
+.mr-sm { margin-right: 16rpx; }
+.p-sm { padding: 16rpx; }
+.p-md { padding: 24rpx; }
+.px-md { padding-left: 24rpx; padding-right: 24rpx; }
+.py-sm { padding-top: 16rpx; padding-bottom: 16rpx; }
+
+/* 卡片 */
+.card {
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin: 16rpx 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+/* 按钮 */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  padding: 16rpx 32rpx;
+  border: none;
+  outline: none;
+}
+.btn-primary {
+  background-color: #FFD100;
+  color: #1A1A1A;
+  font-weight: 600;
+}
+.btn-primary:active {
+  background-color: #F5C400;
+}
+.btn-outline {
+  background-color: transparent;
+  border: 2rpx solid #EEEEEE;
+  color: #666666;
+}
+.btn-block { width: 100%; }
+.btn-lg { padding: 24rpx 32rpx; font-size: 32rpx; }
+.btn-round { border-radius: 999rpx; }
+
+/* 分割线 */
+.divider {
+  height: 1rpx;
+  background-color: #EEEEEE;
+  margin: 16rpx 0;
+}
+
+/* 安全区 */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+/* 隐藏滚动条 */
+::-webkit-scrollbar { display: none; }

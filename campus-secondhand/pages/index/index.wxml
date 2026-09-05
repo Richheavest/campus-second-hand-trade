@@ -1,0 +1,66 @@
+<!-- 首页 -->
+<view class="page">
+  <!-- 顶部搜索栏 -->
+  <view class="search-bar" bindtap="onSearchTap">
+    <view class="search-input">
+      <text class="search-icon">🔍</text>
+      <text class="search-placeholder">搜索你想要的好物...</text>
+    </view>
+  </view>
+
+  <!-- 分类宫格（全部展示） -->
+  <view class="category-grid">
+    <view class="category-item {{currentCategory === item.id ? 'active' : ''}}"
+          wx:for="{{categories}}" wx:key="id"
+          bindtap="onCategoryChange" data-id="{{item.id}}">
+      <view class="category-icon-wrap">
+        <text class="category-icon">{{item.icon}}</text>
+      </view>
+      <text class="category-name">{{item.name}}</text>
+    </view>
+  </view>
+
+  <!-- 排序 + 结果数 -->
+  <view class="sort-bar">
+    <view class="sort-tabs">
+      <view class="sort-item {{currentSort === item.value ? 'active' : ''}}"
+            wx:for="{{sortTypes}}" wx:key="value"
+            bindtap="onSortChange" data-value="{{item.value}}">
+        {{item.label}}
+      </view>
+    </view>
+    <text class="result-count text-light text-xs">{{filteredProducts.length}}件商品</text>
+  </view>
+
+  <!-- 商品瀑布流（双列） -->
+  <view class="waterfall-wrap" wx:if="{{filteredProducts.length > 0}}">
+    <view class="waterfall-col">
+      <view class="waterfall-item" wx:for="{{leftList}}" wx:key="id">
+        <product-card product="{{item}}" />
+      </view>
+    </view>
+    <view class="waterfall-col">
+      <view class="waterfall-item" wx:for="{{rightList}}" wx:key="id">
+        <product-card product="{{item}}" />
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-wrap" wx:if="{{filteredProducts.length === 0 && !loading}}">
+    <text class="empty-icon">📭</text>
+    <text class="empty-text">暂无相关商品</text>
+    <text class="empty-sub text-light">换个分类看看吧~</text>
+  </view>
+
+  <!-- 加载状态 -->
+  <view class="load-more" wx:if="{{loading}}">
+    <text class="text-light text-sm">正在加载...</text>
+  </view>
+  <view class="load-more" wx:if="{{noMore && filteredProducts.length > 0}}">
+    <text class="text-light text-sm">—— 已经到底了 ——</text>
+  </view>
+
+  <!-- 安全区 -->
+  <view class="safe-bottom" style="height: 20rpx;"></view>
+</view>

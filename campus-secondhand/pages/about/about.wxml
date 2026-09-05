@@ -1,0 +1,38 @@
+<!-- 关于 -->
+<view class="page">
+  <view class="logo-section">
+    <text class="logo-icon">🔄</text>
+    <text class="app-name">校园二手</text>
+    <text class="app-version text-sm text-light">v1.0.0</text>
+  </view>
+
+  <view class="info-section card">
+    <view class="info-item">
+      <text class="info-label">技术栈</text>
+      <text class="info-value">微信小程序原生 + SpringBoot + MyBatis-Plus</text>
+    </view>
+    <view class="info-item">
+      <text class="info-label">数据库</text>
+      <text class="info-value">MySQL 8.0 + Redis</text>
+    </view>
+    <view class="info-item">
+      <text class="info-label">管理后台</text>
+      <text class="info-value">Vue 3 + Element Plus</text>
+    </view>
+    <view class="info-item">
+      <text class="info-label">开发工具</text>
+      <text class="info-value">Claude Code · 微信开发者工具</text>
+    </view>
+  </view>
+
+  <view class="desc-section card">
+    <text class="desc-text">
+      校园二手是一个面向高校师生的闲置物品交易平台。在这里，你可以轻松发布闲置物品、浏览好物、与卖家在线沟通，享受安全便捷的校内二手交易体验。
+    </text>
+  </view>
+
+  <view class="footer text-center">
+    <text class="text-light text-sm">Made with ❤️ by Claude Code</text>
+    <text class="text-light text-xs mt-sm">校园二手交易平台 © 2026</text>
+  </view>
+</view>

@@ -1,0 +1,126 @@
+/* 商品卡片组件 */
+.product-card {
+  background: #fff;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+  transition: transform 0.2s;
+}
+.product-card:active {
+  transform: scale(0.98);
+}
+
+/* 图片区 */
+.card-image-wrap {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+.card-image {
+  width: 100%;
+  display: block;
+}
+
+/* 状态标签 */
+.status-tag {
+  position: absolute;
+  top: 12rpx;
+  left: 12rpx;
+  background: rgba(0,0,0,0.55);
+  color: #fff;
+  font-size: 20rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 6rpx;
+}
+
+/* 图片计数 */
+.image-count {
+  position: absolute;
+  bottom: 12rpx;
+  right: 12rpx;
+  background: rgba(0,0,0,0.45);
+  color: #fff;
+  font-size: 20rpx;
+  padding: 2rpx 10rpx;
+  border-radius: 6rpx;
+}
+
+/* 内容区 */
+.card-body {
+  padding: 16rpx;
+}
+
+.card-title {
+  font-size: 28rpx;
+  color: #1A1A1A;
+  line-height: 1.5;
+  margin-bottom: 12rpx;
+  min-height: 84rpx;
+}
+
+/* 价格 */
+.card-price-row {
+  margin-bottom: 12rpx;
+}
+.price-symbol {
+  font-size: 24rpx;
+  color: #FF4D4F;
+  font-weight: 600;
+}
+.card-price {
+  font-size: 36rpx;
+  color: #FF4D4F;
+  font-weight: 700;
+  line-height: 1;
+}
+.price-decimal {
+  font-size: 24rpx;
+  color: #FF4D4F;
+  font-weight: 600;
+}
+.original-price {
+  font-size: 22rpx;
+  color: #999;
+  text-decoration: line-through;
+  margin-left: 8rpx;
+}
+
+/* 底部 */
+.card-footer {
+  margin-top: 4rpx;
+}
+.seller-avatar {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  margin-right: 8rpx;
+  flex-shrink: 0;
+}
+.seller-name {
+  font-size: 22rpx;
+  color: #999;
+  max-width: 120rpx;
+}
+.card-time {
+  flex-shrink: 0;
+}
+
+/* 骨架屏 */
+.skeleton-bg {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+.skeleton-line {
+  height: 28rpx;
+  background: #f0f0f0;
+  border-radius: 4rpx;
+  margin-bottom: 12rpx;
+}
+.skeleton-line-1 { width: 90%; }
+.skeleton-line-2 { width: 60%; }
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

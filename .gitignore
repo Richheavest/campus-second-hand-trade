@@ -1,0 +1,34 @@
+# ===== 依赖 =====
+node_modules/
+
+# ===== 构建产物 =====
+target/
+dist/
+build/
+out/
+
+# ===== IDE =====
+.idea/
+.vscode/
+*.iml
+*.swp
+
+# ===== 运行时数据 / 上传文件 =====
+uploads/
+*.log
+logs/
+
+# ===== 微信小程序私有配置 =====
+project.private.config.json
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== 环境变量 =====
+.env
+.env.local
+
+# ===== 敏感配置（含数据库密码，不要提交；提交 application.yml.example） =====
+application.yml

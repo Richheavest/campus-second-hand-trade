@@ -1,0 +1,90 @@
+<!-- 商品详情页 -->
+<view class="page" wx:if="{{product}}">
+  <!-- 图片轮播 -->
+  <swiper class="img-swiper" indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFD100" autoplay="{{images.length>1}}" circular>
+    <swiper-item wx:for="{{images}}" wx:key="index">
+      <image class="swiper-img" src="{{item}}" mode="aspectFill" bindtap="onPreviewImage" data-index="{{index}}" />
+    </swiper-item>
+  </swiper>
+
+  <!-- 价格区 -->
+  <view class="price-section card">
+    <view class="flex-between">
+      <view class="flex-align-center">
+        <text class="price-symbol">¥</text>
+        <text class="price-current">{{priceInt}}</text>
+        <text class="price-decimal" wx:if="{{priceDecimal}}">.{{priceDecimal}}</text>
+        <text class="price-original" wx:if="{{product.originalPrice}}">¥{{product.originalPrice}}</text>
+      </view>
+      <view class="status-badge {{product.status}}">
+        {{statusText}}
+      </view>
+    </view>
+    <view class="flex-between mt-sm">
+      <view class="flex-align-center">
+        <text class="tag tag-primary">{{conditionText}}</text>
+        <text class="tag tag-outline">{{tradeTypeText}}</text>
+        <text class="tag tag-category">{{categoryName}}</text>
+      </view>
+      <text class="text-light text-sm">{{product.createTime}}</text>
+    </view>
+  </view>
+
+  <!-- 商品信息 -->
+  <view class="info-section card">
+    <view class="section-title">{{product.title}}</view>
+    <view class="section-desc">{{product.description}}</view>
+    <view class="info-meta flex-between mt-sm">
+      <view class="flex-align-center">
+        <text class="meta-item">👁 {{product.viewCount}}次浏览</text>
+        <text class="meta-item ml-sm">❤ {{product.favoriteCount}}人想要</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 卖家卡片 -->
+  <view class="seller-section card">
+    <view class="flex-between" bindtap="onViewSeller">
+      <view class="flex-align-center">
+        <image class="seller-avatar" src="{{product.seller.avatarUrl || '/images/avatar/avatar1.png'}}" mode="aspectFill" />
+        <view class="ml-sm">
+          <view class="flex-align-center">
+            <text class="seller-name">{{product.seller.nickName || '未知用户'}}</text>
+            <view class="credit-badge">
+              <text>信用{{product.seller.creditScore || 100}}</text>
+            </view>
+          </view>
+          <text class="text-light text-sm">在售{{product.seller.productCount || 0}}件商品</text>
+        </view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+    <!-- TA的在售商品 -->
+    <view class="seller-products mt-sm" wx:if="{{sellerProducts.length > 0}}">
+      <text class="text-sm text-secondary mb-sm">TA的其他在售</text>
+      <scroll-view scroll-x show-scrollbar="{{false}}">
+        <view class="seller-product-item" wx:for="{{sellerProducts}}" wx:key="id" bindtap="onTapProduct" data-id="{{item.id}}">
+          <image class="sp-img" src="{{item.images[0]}}" mode="aspectFill" />
+          <text class="text-price text-sm">¥{{item.price}}</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <!-- 安全区占位（底部操作栏高度） -->
+  <view style="height: 120rpx;"></view>
+</view>
+
+<!-- 底部操作栏 -->
+<view class="bottom-bar" wx:if="{{product}}">
+  <view class="bar-left">
+    <view class="bar-btn {{isFavorited ? 'favorited' : ''}}" bindtap="onToggleFavorite">
+      <text class="bar-icon">{{isFavorited ? '❤' : '🤍'}}</text>
+      <text class="bar-text">收藏</text>
+    </view>
+  </view>
+  <view class="bar-right">
+    <button class="action-btn btn-chat" bindtap="onContactSeller">联系卖家</button>
+    <button class="action-btn btn-buy" bindtap="onBuyNow">立即购买</button>
+  </view>
+</view>

@@ -1,0 +1,16 @@
+<!-- 我的收藏 -->
+<view class="page">
+  <view class="fav-item flex-align-center" wx:for="{{favorites}}" wx:key="id" bindtap="onTap" data-id="{{item.id}}">
+    <image class="fav-img" src="{{item.images[0]}}" mode="aspectFill" />
+    <view class="flex-1 ml-sm">
+      <text class="fav-title text-ellipsis-2">{{item.title}}</text>
+      <text class="text-price text-lg mt-xs">¥{{item.price}}</text>
+    </view>
+    <text class="unfavorite-btn" catchtap="onRemove" data-id="{{item.id}}">取消收藏</text>
+  </view>
+  <view class="empty-wrap" wx:if="{{favorites.length === 0}}">
+    <text class="empty-icon">❤️</text>
+    <text class="empty-text">暂无收藏</text>
+    <text class="empty-sub text-light">去首页逛逛，收藏感兴趣的商品吧~</text>
+  </view>
+</view>

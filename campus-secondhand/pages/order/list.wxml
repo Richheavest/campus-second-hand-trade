@@ -1,0 +1,55 @@
+<!-- 订单列表 -->
+<view class="page">
+  <!-- 状态 Tab -->
+  <view class="tab-bar">
+    <view class="tab-item {{currentTab === item.value ? 'active' : ''}}"
+          wx:for="{{tabs}}" wx:key="value"
+          bindtap="onTabChange" data-value="{{item.value}}">
+      {{item.label}}
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="order-list">
+    <view class="order-card card" wx:for="{{filteredOrders}}" wx:key="id" bindtap="onTapOrder" data-id="{{item.id}}">
+      <!-- 订单头部：状态 -->
+      <view class="order-header flex-between">
+        <view class="flex-align-center">
+          <text class="order-seller text-sm">卖家：{{item.seller.nickName || '未知用户'}}</text>
+        </view>
+        <text class="order-status" style="color: {{item.statusColor}}">{{item.statusLabel}}</text>
+      </view>
+
+      <!-- 商品信息 -->
+      <view class="order-product flex-align-center">
+        <image class="order-img" src="{{item.product.images[0]}}" mode="aspectFill" />
+        <view class="flex-1 ml-sm">
+          <text class="order-title text-ellipsis-2">{{item.product.title}}</text>
+          <text class="text-price text-lg mt-xs">¥{{item.totalPrice}}</text>
+        </view>
+      </view>
+
+      <!-- 操作按钮 -->
+      <view class="order-actions flex-between" wx:if="{{item.status !== 'completed' && item.status !== 'cancelled'}}">
+        <text class="order-time text-light text-xs">{{item.createTimeText}}</text>
+        <view class="action-btns">
+          <button class="btn-sm btn-outline" wx:if="{{item.status === 'pending'}}"
+                  catchtap="onCancelOrder" data-id="{{item.id}}">取消订单</button>
+          <button class="btn-sm btn-primary" wx:if="{{item.status === 'pending'}}"
+                  catchtap="onPayOrder" data-id="{{item.id}}">去付款</button>
+          <button class="btn-sm btn-primary" wx:if="{{item.status === 'shipped'}}"
+                  catchtap="onConfirmReceive" data-id="{{item.id}}">确认收货</button>
+        </view>
+      </view>
+      <view class="order-footer" wx:else>
+        <text class="order-time text-light text-xs">{{item.createTimeText}}</text>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-wrap" wx:if="{{filteredOrders.length === 0}}">
+      <text class="empty-icon">📋</text>
+      <text class="empty-text">暂无相关订单</text>
+    </view>
+  </view>
+</view>

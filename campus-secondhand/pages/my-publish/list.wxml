@@ -1,0 +1,32 @@
+<!-- 我发布的 -->
+<view class="page">
+  <view class="product-item" wx:for="{{products}}" wx:key="id" bindtap="onTapProduct" data-id="{{item.id}}">
+    <image class="product-img" src="{{item.images[0]}}" mode="aspectFill" />
+    <view class="flex-1 ml-sm">
+      <view class="product-title text-ellipsis-2">{{item.title}}</view>
+      <view class="flex-between mt-sm">
+        <text class="text-price text-lg">¥{{item.price}}</text>
+        <view class="flex-align-center">
+          <text class="status-tag {{item.status}}">{{item.statusText}}</text>
+          <text class="text-light text-xs ml-sm">{{item.timeText}}</text>
+        </view>
+      </view>
+      <view class="mt-sm flex-align-center">
+        <text class="meta-text">👁 {{item.viewCount}}</text>
+        <text class="meta-text ml-sm">❤ {{item.favoriteCount}}</text>
+        <view class="flex-1"></view>
+        <text class="action-text {{item.status === 'on_sale' ? '' : 'disabled'}}"
+              catchtap="onToggleStatus" data-id="{{item.id}}">
+          {{item.status === 'on_sale' ? '下架' : '上架'}}
+        </text>
+        <text class="action-text danger ml-sm" catchtap="onDelete" data-id="{{item.id}}">删除</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-wrap" wx:if="{{products.length === 0}}">
+    <text class="empty-icon">📦</text>
+    <text class="empty-text">还没有发布商品</text>
+    <text class="empty-sub text-light">快去发布你的第一件闲置吧~</text>
+  </view>
+</view>

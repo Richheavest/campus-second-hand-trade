@@ -1,0 +1,88 @@
+<!-- 发布商品页 -->
+<view class="page">
+  <!-- 图片上传区 -->
+  <view class="image-section">
+    <view class="image-grid">
+      <view class="image-item" wx:for="{{images}}" wx:key="index">
+        <image class="upload-img" src="{{item}}" mode="aspectFill" />
+        <view class="image-delete" bindtap="onDeleteImage" data-index="{{index}}">✕</view>
+        <view class="image-index" wx:if="{{index === 0}}">封面</view>
+      </view>
+      <view class="image-add" wx:if="{{images.length < 9}}" bindtap="onChooseImage">
+        <text class="add-icon">📷</text>
+        <text class="add-text">{{images.length}}/9</text>
+      </view>
+    </view>
+    <text class="image-tip text-light text-xs">上传商品图片，第一张为封面（最多9张）</text>
+  </view>
+
+  <!-- 表单区 -->
+  <view class="form-section">
+    <!-- 标题 -->
+    <view class="form-item">
+      <view class="form-label">标题 <text class="required">*</text></view>
+      <input class="form-input" placeholder="请输入商品标题（2-30字）" value="{{title}}" bindinput="onFieldChange" data-field="title" maxlength="30" />
+    </view>
+
+    <!-- 描述 -->
+    <view class="form-item">
+      <view class="form-label">描述 <text class="required">*</text></view>
+      <textarea class="form-textarea" placeholder="详细描述商品情况，新旧程度、购买时间、有无瑕疵等..." value="{{description}}" bindinput="onFieldChange" data-field="description" maxlength="500" auto-height />
+      <text class="char-count text-light text-xs">{{description.length}}/500</text>
+    </view>
+
+    <!-- 价格 -->
+    <view class="form-item">
+      <view class="form-label">售价 <text class="required">*</text></view>
+      <view class="price-input-wrap">
+        <text class="price-prefix">¥</text>
+        <input class="form-input price-input" type="digit" placeholder="0.00" value="{{price}}" bindinput="onFieldChange" data-field="price" />
+      </view>
+    </view>
+
+    <!-- 原价 -->
+    <view class="form-item">
+      <view class="form-label">原价</view>
+      <view class="price-input-wrap">
+        <text class="price-prefix">¥</text>
+        <input class="form-input price-input" type="digit" placeholder="选填" value="{{originalPrice}}" bindinput="onFieldChange" data-field="originalPrice" />
+      </view>
+    </view>
+
+    <!-- 分类 -->
+    <picker mode="selector" range="{{categoryRange}}" range-key="name" value="{{categoryIndex}}" bindchange="onCategoryChange">
+      <view class="form-item flex-between">
+        <text class="form-label">分类 <text class="required">*</text></text>
+        <view class="picker-value">
+          <text class="{{categoryId ? '' : 'placeholder'}}">{{categoryName || '请选择分类'}}</text>
+          <text class="arrow">›</text>
+        </view>
+      </view>
+    </picker>
+
+    <!-- 新旧程度 -->
+    <view class="form-item flex-between" bindtap="onShowConditionPicker">
+      <text class="form-label">新旧程度 <text class="required">*</text></text>
+      <view class="picker-value">
+        <text class="{{conditionLevel ? '' : 'placeholder'}}">{{conditionText || '请选择'}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 交易方式 -->
+    <view class="form-item flex-between" bindtap="onShowTradePicker">
+      <text class="form-label">交易方式 <text class="required">*</text></text>
+      <view class="picker-value">
+        <text class="{{tradeType ? '' : 'placeholder'}}">{{tradeTypeText || '请选择'}}</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 提交按钮 -->
+  <view class="submit-section">
+    <button class="btn btn-primary btn-block btn-lg btn-round {{canSubmit ? '' : 'disabled'}}" bindtap="onSubmit">发布商品</button>
+  </view>
+
+  <view style="height: 40rpx;"></view>
+</view>

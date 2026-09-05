@@ -1,0 +1,124 @@
+/* 个人中心 */
+.page {
+  min-height: 100vh;
+  background: #F5F5F5;
+}
+
+/* 头部 */
+.profile-header {
+  position: relative;
+  padding-bottom: 24rpx;
+}
+.header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 360rpx;
+  background: linear-gradient(180deg, #FFD100 0%, #FFE57F 60%, #F5F5F5 100%);
+}
+.header-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 40rpx 32rpx 24rpx;
+  z-index: 1;
+}
+.user-avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  border: 4rpx solid #fff;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+  flex-shrink: 0;
+}
+.user-name {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+.user-bio {
+  color: #8B6914;
+}
+
+/* 数据统计 */
+.stats-row {
+  position: relative;
+  display: flex;
+  background: #fff;
+  margin: 0 32rpx;
+  border-radius: 16rpx;
+  padding: 24rpx 0;
+  box-shadow: 0 4rpx 16rpx rgba(0,0,0,0.08);
+  z-index: 1;
+}
+.stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stat-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #1A1A1A;
+}
+.stat-label {
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+.stat-divider {
+  width: 1rpx;
+  height: 48rpx;
+  background: #eee;
+  align-self: center;
+}
+
+/* 菜单 */
+.menu-section {
+  padding: 24rpx 16rpx;
+}
+.menu-group {
+  background: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+  overflow: hidden;
+}
+.menu-group-title {
+  font-size: 24rpx;
+  color: #999;
+  padding: 16rpx 24rpx 8rpx;
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  transition: background 0.2s;
+}
+.menu-item:last-child { border-bottom: none; }
+.menu-item:active { background: #fafafa; }
+.menu-icon {
+  font-size: 36rpx;
+  width: 48rpx;
+  text-align: center;
+  margin-right: 16rpx;
+}
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: #1A1A1A;
+}
+.menu-value {
+  font-size: 24rpx;
+  margin-right: 8rpx;
+}
+.menu-arrow {
+  font-size: 32rpx;
+  color: #ccc;
+}
+
+.version {
+  padding: 32rpx;
+}

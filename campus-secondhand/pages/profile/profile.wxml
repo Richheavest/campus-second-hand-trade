@@ -1,0 +1,80 @@
+<!-- 个人中心 -->
+<view class="page">
+  <!-- 头部渐变区 -->
+  <view class="profile-header">
+    <view class="header-bg"></view>
+    <view class="header-content">
+      <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill" bindtap="onChooseAvatar" />
+      <view class="user-info ml-sm">
+        <text class="user-name">{{userInfo.nickName}}</text>
+        <text class="user-bio text-sm mt-xs">欢迎来到校园二手交易平台 🎉</text>
+      </view>
+    </view>
+    <!-- 数据统计 -->
+    <view class="stats-row">
+      <view class="stat-item" bindtap="onTapMyPublish">
+        <text class="stat-num">{{stats.selling}}</text>
+        <text class="stat-label">在售</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" bindtap="onTapSold">
+        <text class="stat-num">{{stats.sold}}</text>
+        <text class="stat-label">已售</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item" bindtap="onTapMyFavorite">
+        <text class="stat-num">{{stats.favorites}}</text>
+        <text class="stat-label">收藏</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
+  <view class="menu-section">
+    <!-- 我的交易 -->
+    <view class="menu-group">
+      <view class="menu-group-title">我的交易</view>
+      <view class="menu-item" bindtap="onTapMyPublish">
+        <text class="menu-icon">📦</text>
+        <text class="menu-text">我发布的</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="onTapMyOrders" data-type="buy">
+        <text class="menu-icon">🛒</text>
+        <text class="menu-text">我买到的</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="onTapMyOrders" data-type="sell">
+        <text class="menu-icon">💵</text>
+        <text class="menu-text">我卖出的</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 我的收藏 -->
+    <view class="menu-group">
+      <view class="menu-item" bindtap="onTapMyFavorite">
+        <text class="menu-icon">❤️</text>
+        <text class="menu-text">我的收藏</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+
+    <!-- 设置 -->
+    <view class="menu-group">
+      <view class="menu-item" bindtap="onTapAbout">
+        <text class="menu-icon">ℹ️</text>
+        <text class="menu-text">关于校园二手</text>
+        <text class="menu-arrow">›</text>
+      </view>
+      <view class="menu-item" bindtap="onClearCache">
+        <text class="menu-icon">🧹</text>
+        <text class="menu-text">清除缓存</text>
+        <text class="menu-value text-light">{{cacheSize}}</text>
+        <text class="menu-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="version text-center text-light text-xs">校园二手 v1.0 · Powered by Claude Code</view>
+</view>

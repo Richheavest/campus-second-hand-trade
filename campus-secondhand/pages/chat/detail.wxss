@@ -1,0 +1,127 @@
+/* 聊天详情 */
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #F2F3F5;
+}
+
+/* 消息滚动区 */
+.msg-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+.msg-list {
+  padding: 24rpx 24rpx;
+}
+
+/* 每条消息 */
+.msg-item {
+  display: flex;
+  margin-bottom: 28rpx;
+  align-items: flex-start;
+}
+.msg-other {
+  flex-direction: row;
+}
+.msg-mine {
+  flex-direction: row-reverse;
+}
+.msg-avatar {
+  width: 76rpx;
+  height: 76rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #e8e8e8;
+}
+.msg-other .msg-avatar {
+  margin-right: 16rpx;
+}
+.msg-mine .msg-avatar {
+  margin-left: 16rpx;
+}
+
+/* 消息主体（气泡 + 时间） */
+.msg-body {
+  max-width: 72%;
+  display: flex;
+  flex-direction: column;
+}
+.msg-other .msg-body {
+  align-items: flex-start;
+}
+.msg-mine .msg-body {
+  align-items: flex-end;
+}
+
+.msg-img {
+  max-width: 360rpx;
+  border-radius: 16rpx;
+  display: block;
+}
+.msg-bubble {
+  padding: 18rpx 24rpx;
+  font-size: 28rpx;
+  line-height: 1.6;
+  word-break: break-all;
+  border-radius: 16rpx;
+  position: relative;
+}
+.bubble-other {
+  background: #fff;
+  color: #1A1A1A;
+  border-top-left-radius: 4rpx;
+}
+.bubble-mine {
+  background: #FFD100;
+  color: #1A1A1A;
+  border-top-right-radius: 4rpx;
+}
+.msg-time {
+  margin-top: 6rpx;
+  font-size: 20rpx;
+  color: #B0B3B8;
+  padding: 0 4rpx;
+}
+
+/* 输入栏 */
+.input-bar {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 12rpx 16rpx;
+  padding-bottom: calc(12rpx + env(safe-area-inset-bottom));
+  border-top: 1rpx solid #eee;
+  gap: 10rpx;
+}
+.input-actions {
+  flex-shrink: 0;
+}
+.input-btn {
+  font-size: 40rpx;
+  padding: 4rpx 8rpx;
+}
+.msg-input {
+  flex: 1;
+  background: #F5F5F5;
+  border-radius: 40rpx;
+  padding: 14rpx 24rpx;
+  font-size: 28rpx;
+  height: 68rpx;
+}
+.send-btn {
+  flex-shrink: 0;
+  background: #e0e0e0;
+  color: #999;
+  font-size: 26rpx;
+  padding: 14rpx 24rpx;
+  border-radius: 40rpx;
+  border: none;
+  line-height: 1;
+}
+.send-btn::after { border: none; }
+.send-btn.active {
+  background: #FFD100;
+  color: #1A1A1A;
+  font-weight: 600;
+}

@@ -1,0 +1,35 @@
+<!-- 聊天详情 -->
+<view class="page">
+  <!-- 消息列表 -->
+  <scroll-view class="msg-scroll" scroll-y scroll-into-view="{{scrollToView}}" scroll-with-animation>
+    <view class="msg-list">
+      <view class="msg-item {{item.fromUserId === currentUserId ? 'msg-mine' : 'msg-other'}}"
+            wx:for="{{messages}}" wx:key="id" id="msg-{{item.id}}">
+        <!-- 头像 -->
+        <image class="msg-avatar"
+               src="{{item.fromUserId === currentUserId ? currentUser.avatarUrl : otherUser.avatarUrl}}"
+               mode="aspectFill" />
+        <!-- 气泡 + 时间 -->
+        <view class="msg-body">
+          <image class="msg-img" wx:if="{{item.type === 'image'}}"
+                 src="{{item.content}}" mode="widthFix" bindtap="onPreviewImage" data-url="{{item.content}}" />
+          <view class="msg-bubble {{item.fromUserId === currentUserId ? 'bubble-mine' : 'bubble-other'}}"
+                wx:if="{{item.type === 'text'}}">{{item.content}}</view>
+          <text class="msg-time">{{item.timeText}}</text>
+        </view>
+      </view>
+    </view>
+    <view style="height: 20rpx;"></view>
+  </scroll-view>
+
+  <!-- 输入栏 -->
+  <view class="input-bar">
+    <view class="input-actions">
+      <text class="input-btn" bindtap="onChooseImage">🖼</text>
+    </view>
+    <input class="msg-input" placeholder="输入消息..." value="{{inputText}}"
+           bindinput="onInputChange" bindconfirm="onSendText" confirm-type="send"
+           adjust-position="{{true}}" cursor-spacing="20" />
+    <button class="send-btn {{inputText ? 'active' : ''}}" bindtap="onSendText">发送</button>
+  </view>
+</view>
