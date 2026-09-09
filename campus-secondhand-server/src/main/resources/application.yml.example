@@ -22,6 +22,28 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: Asia/Shanghai
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 5000ms
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+
+# 微信小程序登录配置（真实登录需填 appid/secret；dev-mode=true 时用本地 mock openid 兜底）
+wechat:
+  appid: 请替换为小程序AppID
+  secret: 请替换为小程序AppSecret
+  dev-mode: true
+
+# JWT 配置（生产环境请更换为随机密钥）
+jwt:
+  secret: 请替换为至少32字节的随机密钥
+  expire-hours: 168
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/*.xml

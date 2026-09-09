@@ -35,7 +35,7 @@ Page({
     this.loadMessages()
     this.loadOtherUser(otherUserId)
     // 标记已读
-    api.markRead(conversationId, this.data.currentUserId).catch(() => {})
+    api.markRead(conversationId).catch(() => {})
   },
 
   // 加载对方用户信息（头像 + 昵称）
@@ -101,7 +101,7 @@ Page({
 
     // 发送到后端
     try {
-      await api.sendMessage(currentUserId, toUserId, 'text', text)
+      await api.sendMessage(toUserId, 'text', text)
     } catch (err) {
       console.warn('消息发送失败:', err)
     }
@@ -128,7 +128,7 @@ Page({
         const messages = [...this.data.messages, newMsg]
         this.setData({ messages }, () => this.scrollToBottom())
 
-        try { await api.sendMessage(currentUserId, toUserId, 'image', res.tempFilePaths[0]) } catch (e) {}
+        try { await api.sendMessage(toUserId, 'image', res.tempFilePaths[0]) } catch (e) {}
       }
     })
   },

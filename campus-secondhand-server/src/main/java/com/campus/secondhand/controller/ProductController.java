@@ -3,11 +3,13 @@ package com.campus.secondhand.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.campus.secondhand.common.Result;
+import com.campus.secondhand.common.UserContext;
 import com.campus.secondhand.entity.*;
 import com.campus.secondhand.mapper.ProductImageMapper;
 import com.campus.secondhand.mapper.UserMapper;
 import com.campus.secondhand.mapper.CategoryMapper;
 import com.campus.secondhand.service.ProductService;
+import com.campus.secondhand.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,8 @@ public class ProductController {
     private UserMapper userMapper;
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private RedisService redisService;
 
     @GetMapping("/list")
     public Result<Map<String, Object>> list(
@@ -34,6 +38,13 @@ public class ProductController {
             @RequestParam(required = false) Integer categoryId,
             @RequestParam(defaultValue = "latest") String sort,
             @RequestParam(required = false) String keyword) {
+        // 命中缓存直接返回
+        String cacheKey = redisService.listCacheKey(pageNum, pageSize, categoryId, sort, keyword);
+        Map<String, Object> cached = redisService.getListCache(cacheKey);
+        if (cached != null) {
+            return Result.ok(cached);
+        }
+
         Page<Product> page = productService.pageOnSale(pageNum, pageSize, categoryId, sort, keyword);
         page.getRecords().forEach(this::enrichProduct);
         Map<String, Object> resultMap = new HashMap<>();
@@ -41,6 +52,7 @@ public class ProductController {
         resultMap.put("total", page.getTotal());
         resultMap.put("pageNum", page.getCurrent());
         resultMap.put("pageSize", page.getSize());
+        redisService.setListCache(cacheKey, resultMap);
         return Result.ok(resultMap);
     }
 
@@ -48,7 +60,7 @@ public class ProductController {
     public Result<Product> detail(@PathVariable Long productId) {
         Product product = productService.getDetail(productId);
         if (product == null) return Result.notFound();
-        productService.incrViewCount(productId);
+        redisService.incrView(productId);
         enrichProduct(product);
         return Result.ok(product);
     }
@@ -66,11 +78,14 @@ public class ProductController {
         product.setCategoryId(Integer.valueOf(body.get("categoryId").toString()));
         product.setConditionLevel((String) body.get("conditionLevel"));
         product.setTradeType((String) body.get("tradeType"));
-        product.setSellerId(Long.valueOf(body.get("sellerId").toString()));
+        // 卖家身份从 token 解析，不信任前端传的 sellerId
+        product.setSellerId(UserContext.getUserId());
 
         @SuppressWarnings("unchecked")
         List<String> images = (List<String>) body.get("images");
-        return Result.ok(productService.publish(product, images));
+        Product saved = productService.publish(product, images);
+        redisService.evictListCache();
+        return Result.ok(saved);
     }
 
     @GetMapping("/seller/{sellerId}")
@@ -83,8 +98,9 @@ public class ProductController {
         return Result.ok(list);
     }
 
-    @GetMapping("/my/{userId}")
-    public Result<List<Product>> myProducts(@PathVariable Long userId) {
+    @GetMapping("/my")
+    public Result<List<Product>> myProducts() {
+        Long userId = UserContext.getUserId();
         List<Product> list = productService.getMyProducts(userId);
         list.forEach(this::enrichProduct);
         return Result.ok(list);
@@ -94,13 +110,21 @@ public class ProductController {
     public Result<?> updateStatus(@PathVariable Long productId, @RequestBody Map<String, String> body) {
         Product product = productService.getById(productId);
         if (product == null) return Result.notFound();
+        // 归属校验：只能操作自己发布的商品
+        if (!product.getSellerId().equals(UserContext.getUserId())) {
+            return Result.fail(403, "无权操作该商品");
+        }
         product.setStatus(body.get("status"));
         productService.updateById(product);
+        redisService.evictListCache();
         return Result.ok();
     }
 
     /** 填充商品的图片、卖家信息、分类名 */
     private void enrichProduct(Product product) {
+        // 0. 实时浏览量/收藏量（DB 基础值 + Redis 增量）
+        redisService.fillRealTimeCounts(product);
+
         // 1. 图片
         List<ProductImage> imgList = productImageMapper.selectList(
                 new LambdaQueryWrapper<ProductImage>()

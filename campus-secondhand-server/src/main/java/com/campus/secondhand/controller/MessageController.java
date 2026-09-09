@@ -2,6 +2,7 @@ package com.campus.secondhand.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.campus.secondhand.common.Result;
+import com.campus.secondhand.common.UserContext;
 import com.campus.secondhand.entity.Message;
 import com.campus.secondhand.mapper.MessageMapper;
 import com.campus.secondhand.service.MessageService;
@@ -25,7 +26,8 @@ public class MessageController {
      */
     @PostMapping("/send")
     public Result<Message> send(@RequestBody Map<String, Object> body) {
-        Long fromUserId = Long.valueOf(body.get("fromUserId").toString());
+        // 发送者身份从 token 解析，不信任前端传的 fromUserId
+        Long fromUserId = UserContext.getUserId();
         Long toUserId = Long.valueOf(body.get("toUserId").toString());
         String type = (String) body.getOrDefault("type", "text");
         String content = (String) body.get("content");
@@ -45,8 +47,9 @@ public class MessageController {
     /**
      * 获取用户会话列表
      */
-    @GetMapping("/conversations/{userId}")
-    public Result<List<Map<String, Object>>> getConversations(@PathVariable Long userId) {
+    @GetMapping("/conversations")
+    public Result<List<Map<String, Object>>> getConversations() {
+        Long userId = UserContext.getUserId();
         return Result.ok(messageService.getConversations(userId));
     }
 
@@ -54,8 +57,8 @@ public class MessageController {
      * 标记已读
      */
     @PutMapping("/read/{conversationId}")
-    public Result<?> markRead(@PathVariable String conversationId, @RequestBody Map<String, Long> body) {
-        Long userId = body.get("userId");
+    public Result<?> markRead(@PathVariable String conversationId, @RequestBody(required = false) Map<String, Long> body) {
+        Long userId = UserContext.getUserId();
         List<Message> unread = messageMapper.selectList(
                 new LambdaQueryWrapper<Message>()
                         .eq(Message::getConversationId, conversationId)

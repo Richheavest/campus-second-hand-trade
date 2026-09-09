@@ -9,8 +9,7 @@ Page({
 
   async loadProducts() {
     try {
-      const userId = api.getCurrentUserId()
-      const list = await api.getMyProducts(userId)
+      const list = await api.getMyProducts()
       const products = (list || []).map(p => ({
         ...p,
         statusText: p.status === 'on_sale' ? '在售' : p.status === 'sold' ? '已售' : '已下架',

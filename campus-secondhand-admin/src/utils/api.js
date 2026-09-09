@@ -29,7 +29,7 @@ export const updateUserStatus = (id, status) => http.put(`/admin/users/${id}/sta
 
 // ===== 商品 =====
 export const getProducts = (params) => http.get('/admin/products', { params })
-export const updateProductStatus = (id, status) => http.put(`/product/${id}/status`, { status })
+export const updateProductStatus = (id, status) => http.put(`/admin/products/${id}/status`, { status })
 export const deleteProduct = (id) => http.delete(`/admin/products/${id}`)
 
 // ===== 订单 =====

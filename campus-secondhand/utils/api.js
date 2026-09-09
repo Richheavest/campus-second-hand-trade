@@ -55,10 +55,11 @@ function request(url, options = {}) {
 }
 
 // ===== 用户 =====
-function login(openid, nickname, avatarUrl) {
+// 后端返回 { token, user }
+function login(code, nickname, avatarUrl) {
   return request('/api/user/login', {
     method: 'POST',
-    data: { openid, nickname, avatarUrl }
+    data: { code, nickname, avatarUrl }
   })
 }
 
@@ -97,8 +98,8 @@ function getSellerProducts(sellerId, excludeId, limit = 5) {
   return request(url)
 }
 
-function getMyProducts(userId) {
-  return request('/api/product/my/' + userId)
+function getMyProducts() {
+  return request('/api/product/my')
 }
 
 function updateProductStatus(productId, status) {
@@ -109,15 +110,15 @@ function updateProductStatus(productId, status) {
 }
 
 // ===== 订单 =====
-function createOrder(buyerId, productId) {
+function createOrder(productId) {
   return request('/api/order/create', {
     method: 'POST',
-    data: { buyerId, productId }
+    data: { productId }
   })
 }
 
-function getOrders(userId, role = 'buy', status) {
-  let url = `/api/order/list?userId=${userId}&role=${role}`
+function getOrders(role = 'buy', status) {
+  let url = `/api/order/list?role=${role}`
   if (status && status !== 'all') url += '&status=' + status
   return request(url)
 }
@@ -134,10 +135,10 @@ function updateOrderStatus(orderId, status) {
 }
 
 // ===== 消息 =====
-function sendMessage(fromUserId, toUserId, type, content) {
+function sendMessage(toUserId, type, content) {
   return request('/api/message/send', {
     method: 'POST',
-    data: { fromUserId, toUserId, type, content }
+    data: { toUserId, type, content }
   })
 }
 
@@ -145,31 +146,31 @@ function getMessages(conversationId) {
   return request('/api/message/conversation/' + conversationId)
 }
 
-function getConversations(userId) {
-  return request('/api/message/conversations/' + userId)
+function getConversations() {
+  return request('/api/message/conversations')
 }
 
-function markRead(conversationId, userId) {
+function markRead(conversationId) {
   return request(`/api/message/read/${conversationId}`, {
     method: 'PUT',
-    data: { userId }
+    data: {}
   })
 }
 
 // ===== 收藏 =====
-function toggleFavorite(userId, productId) {
+function toggleFavorite(productId) {
   return request('/api/favorite/toggle', {
     method: 'POST',
-    data: { userId, productId }
+    data: { productId }
   })
 }
 
-function checkFavorite(userId, productId) {
-  return request(`/api/favorite/check?userId=${userId}&productId=${productId}`)
+function checkFavorite(productId) {
+  return request(`/api/favorite/check?productId=${productId}`)
 }
 
-function getFavorites(userId) {
-  return request('/api/favorite/list/' + userId)
+function getFavorites() {
+  return request('/api/favorite/list')
 }
 
 // ===== 文件上传 =====

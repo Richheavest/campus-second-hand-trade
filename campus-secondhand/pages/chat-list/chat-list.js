@@ -15,8 +15,7 @@ Page({
 
   async loadConversations() {
     try {
-      const userId = api.getCurrentUserId()
-      const list = await api.getConversations(userId)
+      const list = await api.getConversations()
       const formatted = (list || []).map(item => ({
         conversationId: item.conversationId,
         otherUser: normalizeUser(item.otherUser),

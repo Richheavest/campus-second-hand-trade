@@ -1,6 +1,7 @@
 package com.campus.secondhand.controller;
 
 import com.campus.secondhand.common.Result;
+import com.campus.secondhand.common.UserContext;
 import com.campus.secondhand.entity.OrderInfo;
 import com.campus.secondhand.entity.OrderStatusLog;
 import com.campus.secondhand.service.OrderService;
@@ -25,7 +26,8 @@ public class OrderController {
      */
     @PostMapping("/create")
     public Result<OrderInfo> create(@RequestBody Map<String, Long> body) {
-        Long buyerId = body.get("buyerId");
+        // 买家身份从 token 解析，不信任前端传的 buyerId
+        Long buyerId = UserContext.getUserId();
         Long productId = body.get("productId");
         OrderInfo order = orderService.createOrder(buyerId, productId);
         return Result.ok(order);
@@ -36,9 +38,9 @@ public class OrderController {
      */
     @GetMapping("/list")
     public Result<List<OrderInfo>> list(
-            @RequestParam Long userId,
             @RequestParam(defaultValue = "buy") String role,
             @RequestParam(required = false) String status) {
+        Long userId = UserContext.getUserId();
         List<OrderInfo> orders = orderService.getUserOrders(userId, role, status);
         return Result.ok(orders);
     }

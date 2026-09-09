@@ -77,15 +77,6 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     }
 
     @Override
-    public void incrViewCount(Long productId) {
-        Product product = this.getById(productId);
-        if (product != null) {
-            product.setViewCount((product.getViewCount() == null ? 0 : product.getViewCount()) + 1);
-            this.updateById(product);
-        }
-    }
-
-    @Override
     public List<Product> getSellerProducts(Long sellerId, Long excludeId, int limit) {
         return this.list(new LambdaQueryWrapper<Product>()
                 .eq(Product::getSellerId, sellerId)

@@ -32,11 +32,10 @@ Page({
   },
 
   async loadStats() {
-    const userId = api.getCurrentUserId()
     try {
       const [products, favorites] = await Promise.all([
-        api.getMyProducts(userId).catch(() => []),
-        api.getFavorites(userId).catch(() => [])
+        api.getMyProducts().catch(() => []),
+        api.getFavorites().catch(() => [])
       ])
       const list = products || []
       this.setData({

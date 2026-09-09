@@ -6,6 +6,7 @@ import com.campus.secondhand.common.Result;
 import com.campus.secondhand.entity.*;
 import com.campus.secondhand.mapper.*;
 import com.campus.secondhand.service.CategoryService;
+import com.campus.secondhand.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ public class AdminController {
     @Autowired private OrderInfoMapper orderMapper;
     @Autowired private CategoryService categoryService;
     @Autowired private CategoryMapper categoryMapper;
+    @Autowired private RedisService redisService;
 
     // ===== 仪表盘 =====
     @GetMapping("/dashboard")
@@ -76,6 +78,18 @@ public class AdminController {
     @DeleteMapping("/products/{id}")
     public Result<?> deleteProduct(@PathVariable Long id) {
         productMapper.deleteById(id);
+        redisService.evictListCache();
+        return Result.ok();
+    }
+
+    @PutMapping("/products/{id}/status")
+    public Result<?> updateProductStatus(@PathVariable Long id, @RequestBody Map<String, Object> body) {
+        Product product = productMapper.selectById(id);
+        if (product != null) {
+            product.setStatus(String.valueOf(body.get("status")));
+            productMapper.updateById(product);
+        }
+        redisService.evictListCache();
         return Result.ok();
     }
 

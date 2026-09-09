@@ -124,7 +124,6 @@ Page({
         categoryId: category ? category.backendId : null,
         conditionLevel,
         tradeType,
-        sellerId: api.getCurrentUserId(),
         images: uploadedImages
       }
 

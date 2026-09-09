@@ -69,8 +69,7 @@ Page({
 
   async checkFavorite() {
     try {
-      const userId = api.getCurrentUserId()
-      const result = await api.checkFavorite(userId, this.data.product.id)
+      const result = await api.checkFavorite(this.data.product.id)
       this.setData({ isFavorited: result && result.isFavorited })
     } catch (e) { /* ignore */ }
   },
@@ -110,7 +109,7 @@ Page({
   async onToggleFavorite() {
     const { product, isFavorited } = this.data
     try {
-      const result = await api.toggleFavorite(api.getCurrentUserId(), product.id)
+      const result = await api.toggleFavorite(product.id)
       this.setData({ isFavorited: result && result.isFavorited })
       wx.showToast({ title: result.isFavorited ? '已收藏' : '已取消收藏', icon: 'none' })
     } catch (err) {
@@ -141,7 +140,7 @@ Page({
     }
     try {
       wx.showLoading({ title: '下单中...' })
-      const order = await api.createOrder(api.getCurrentUserId(), product.id)
+      const order = await api.createOrder(product.id)
       wx.hideLoading()
       wx.showToast({ title: '下单成功', icon: 'success' })
       setTimeout(() => {

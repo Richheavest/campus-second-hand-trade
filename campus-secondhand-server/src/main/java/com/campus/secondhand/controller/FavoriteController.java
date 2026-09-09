@@ -2,6 +2,7 @@ package com.campus.secondhand.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.campus.secondhand.common.Result;
+import com.campus.secondhand.common.UserContext;
 import com.campus.secondhand.entity.Category;
 import com.campus.secondhand.entity.Favorite;
 import com.campus.secondhand.entity.Product;
@@ -12,6 +13,7 @@ import com.campus.secondhand.mapper.ProductImageMapper;
 import com.campus.secondhand.mapper.ProductMapper;
 import com.campus.secondhand.mapper.UserMapper;
 import com.campus.secondhand.service.FavoriteService;
+import com.campus.secondhand.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,13 +34,15 @@ public class FavoriteController {
     private UserMapper userMapper;
     @Autowired
     private CategoryMapper categoryMapper;
+    @Autowired
+    private RedisService redisService;
 
     /**
-     * 切换收藏状态
+     * 切换收藏状态（操作者从 token 解析，不信任前端传的 userId）
      */
     @PostMapping("/toggle")
     public Result<Map<String, Object>> toggle(@RequestBody Map<String, Long> body) {
-        Long userId = body.get("userId");
+        Long userId = UserContext.getUserId();
         Long productId = body.get("productId");
         boolean isFav = favoriteService.toggle(userId, productId);
         Map<String, Object> result1 = new HashMap<>();
@@ -50,9 +54,8 @@ public class FavoriteController {
      * 是否已收藏
      */
     @GetMapping("/check")
-    public Result<Map<String, Boolean>> check(
-            @RequestParam Long userId,
-            @RequestParam Long productId) {
+    public Result<Map<String, Boolean>> check(@RequestParam Long productId) {
+        Long userId = UserContext.getUserId();
         boolean isFav = favoriteService.isFavorited(userId, productId);
         Map<String, Boolean> result2 = new HashMap<>();
         result2.put("isFavorited", isFav);
@@ -62,8 +65,9 @@ public class FavoriteController {
     /**
      * 用户收藏列表（返回收藏的商品，含图片信息）
      */
-    @GetMapping("/list/{userId}")
-    public Result<List<Product>> list(@PathVariable Long userId) {
+    @GetMapping("/list")
+    public Result<List<Product>> list() {
+        Long userId = UserContext.getUserId();
         List<Favorite> favs = favoriteService.getUserFavorites(userId);
         List<Long> productIds = favs.stream().map(Favorite::getProductId).collect(Collectors.toList());
         if (productIds.isEmpty()) {
@@ -83,6 +87,8 @@ public class FavoriteController {
 
     /** 填充商品图片、卖家信息、分类名（与 ProductController 保持一致） */
     private void enrichProduct(Product product) {
+        redisService.fillRealTimeCounts(product);
+
         List<ProductImage> imgList = productImageMapper.selectList(
                 new LambdaQueryWrapper<ProductImage>()
                         .eq(ProductImage::getProductId, product.getId())

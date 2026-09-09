@@ -8,8 +8,7 @@ Page({
 
   async loadFavorites() {
     try {
-      const userId = api.getCurrentUserId()
-      const list = await api.getFavorites(userId)
+      const list = await api.getFavorites()
       const products = (list || []).map(p => ({
         ...p,
         images: (p.images && p.images.length > 0) ? p.images : [p.imageUrl || '/images/placeholder.png'],
@@ -35,7 +34,7 @@ Page({
   async onRemove(e) {
     const { id } = e.currentTarget.dataset
     try {
-      await api.toggleFavorite(api.getCurrentUserId(), id)
+      await api.toggleFavorite(id)
     } catch (err) {
       const storage = require('../../utils/storage')
       storage.removeItem(storage.STORAGE_KEYS.FAVORITES, f => f.id === id)

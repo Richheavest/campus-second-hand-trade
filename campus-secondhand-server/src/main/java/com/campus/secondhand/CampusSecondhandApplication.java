@@ -3,9 +3,11 @@ package com.campus.secondhand;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @MapperScan("com.campus.secondhand.mapper")
+@EnableScheduling
 public class CampusSecondhandApplication {
 
     public static void main(String[] args) {

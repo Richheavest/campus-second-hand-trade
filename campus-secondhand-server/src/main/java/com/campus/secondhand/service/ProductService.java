@@ -23,11 +23,6 @@ public interface ProductService extends IService<Product> {
     Product getDetail(Long productId);
 
     /**
-     * 增加浏览量
-     */
-    void incrViewCount(Long productId);
-
-    /**
      * 卖家的其他在售商品
      */
     List<Product> getSellerProducts(Long sellerId, Long excludeId, int limit);

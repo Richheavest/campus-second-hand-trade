@@ -29,8 +29,7 @@ Page({
 
   async loadOrders() {
     try {
-      const userId = api.getCurrentUserId()
-      const orders = await api.getOrders(userId, this.data.listType)
+      const orders = await api.getOrders(this.data.listType)
       const formatted = (orders || []).map(o => {
         const si = ORDER_STATUS[o.status] || {}
         return {
